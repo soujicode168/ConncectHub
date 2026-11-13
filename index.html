@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10121b">
+  <title>ConnectHub — Connect with the world</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="authScreen" class="auth-screen">
+    <form id="authForm" class="auth-card">
+      <a class="logo auth-logo" href="#">Connect<span>Hub.</span></a>
+      <h1 id="authTitle">Welcome back</h1>
+      <p class="muted" id="authDescription">Sign in to continue to ConnectHub.</p>
+      <label id="nameLabel" class="hidden">Your name</label>
+      <input id="authName" class="hidden" type="text" placeholder="Your full name" autocomplete="name">
+      <label>Email</label>
+      <input id="authEmail" type="email" placeholder="you@example.com" autocomplete="email" required>
+      <label>Password</label>
+      <input id="authPassword" type="password" placeholder="At least 6 characters" minlength="6" autocomplete="current-password" required>
+      <button class="primary-btn full-btn" type="submit" id="authSubmit">Sign in</button>
+      <p class="auth-switch"><span id="authSwitchText">Don't have an account?</span> <button type="button" class="text-btn" id="authSwitch">Create account</button></p>
+      <p class="tiny muted">Demo mode: account details are stored only in this browser.</p>
+    </form>
+  </div>
+
+  <div id="app" class="app hidden">
+    <header class="topbar">
+      <a class="logo" href="#" aria-label="ConnectHub home">Connect<span>Hub.</span></a>
+      <div class="top-search"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search ConnectHub..." aria-label="Search"></div>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">☾</button>
+        <button class="icon-btn notification-shortcut" data-view="notifications" aria-label="Notifications">♧<i id="notificationDot"></i></button>
+        <button class="avatar avatar-small" id="topAvatar" data-view="profile" aria-label="Your profile">P</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar panel">
+        <div class="mini-profile">
+          <button class="avatar avatar-large" id="sideAvatar" data-view="profile">P</button>
+          <h3 id="sideName">Your Name</h3>
+          <p class="muted" id="sideHandle">@username</p>
+          <button class="outline-btn full-btn" data-view="profile">View profile</button>
+        </div>
+        <nav class="side-nav" aria-label="Main navigation">
+          <button class="nav-item active" data-view="home">⌂ <span>Home</span></button>
+          <button class="nav-item" data-view="explore">⌕ <span>Explore</span></button>
+          <button class="nav-item" data-view="messages">✉ <span>Messages</span></button>
+          <button class="nav-item" data-view="notifications">♧ <span>Notifications</span><b id="navNotifCount" class="nav-count"></b></button>
+          <button class="nav-item" data-view="profile">◎ <span>My Profile</span></button>
+          <button class="nav-item" data-view="settings">⚙ <span>Settings</span></button>
+        </nav>
+        <button class="quiet-btn full-btn" id="logoutBtn">↪ Sign out</button>
+      </aside>
+
+      <main class="main-content">
+        <section id="view-home" class="view active-view">
+          <div class="page-heading"><div><p class="eyebrow">YOUR COMMUNITY</p><h1>Home Feed</h1><p class="muted">Share your moments with the world.</p></div></div>
+          <form id="composer" class="panel composer">
+            <div class="composer-row">
+              <div class="avatar" id="composerAvatar">P</div>
+              <textarea id="postText" rows="1" maxlength="1000" placeholder="What's on your mind?"></textarea>
+            </div>
+            <div id="mediaPreview" class="media-preview hidden"></div>
+            <div class="composer-footer">
+              <div class="upload-actions">
+                <label class="upload-label" for="imageFile">▧ Photo</label>
+                <input id="imageFile" type="file" accept="image/*" hidden>
+                <label class="upload-label" for="videoFile">▷ Video</label>
+                <input id="videoFile" type="file" accept="video/*" hidden>
+              </div>
+              <button class="primary-btn" type="submit">Publish post</button>
+            </div>
+          </form>
+          <div class="feed-toolbar"><h2>Latest posts</h2><select id="feedSort" aria-label="Sort posts"><option value="new">Newest</option><option value="popular">Most liked</option></select></div>
+          <div id="feedPosts" class="post-list"></div>
+        </section>
+
+        <section id="view-explore" class="view">
+          <div class="page-heading"><div><p class="eyebrow">FIND YOUR PEOPLE</p><h1>Explore</h1><p class="muted">Discover conversations and creators.</p></div></div>
+          <div class="panel section-panel"><h2>Trending topics</h2><div class="topic-list"><button class="topic-chip" data-topic="technology">#Technology</button><button class="topic-chip" data-topic="photography">#Photography</button><button class="topic-chip" data-topic="design">#Design</button><button class="topic-chip" data-topic="learning">#Learning</button><button class="topic-chip" data-topic="lifestyle">#Lifestyle</button></div></div>
+          <div class="feed-toolbar"><h2>Discover posts</h2></div><div id="explorePosts" class="post-list"></div>
+          <div class="panel section-panel"><h2>People to discover</h2><div id="suggestedPeople" class="people-list"></div></div>
+        </section>
+
+        <section id="view-messages" class="view">
+          <div class="page-heading"><div><p class="eyebrow">STAY CONNECTED</p><h1>Messages</h1><p class="muted">A simple local chat demo.</p></div></div>
+          <div class="panel chat-panel">
+            <div class="chat-heading"><div class="avatar"><img src="assets/nhel-kong.jpg" alt="Nhel Kong"></div><div><strong>Nhel Kong</strong><p class="muted tiny">Demo conversation</p></div></div>
+            <div id="chatMessages" class="chat-messages"><div class="bubble received">Hey! Welcome to ConnectHub 👋</div><div class="bubble sent">Thanks! Happy to be here.</div></div>
+            <form id="chatForm" class="chat-compose"><input id="chatInput" placeholder="Write a message..." maxlength="500" required><button class="primary-btn" type="submit">Send</button></form>
+          </div>
+          <p class="tiny muted">Messages in this prototype are stored on this device only.</p>
+        </section>
+
+        <section id="view-notifications" class="view">
+          <div class="page-heading"><div><p class="eyebrow">WHAT'S HAPPENING</p><h1>Notifications</h1><p class="muted">Your recent ConnectHub activity.</p></div><button class="outline-btn" id="clearNotifications">Clear all</button></div>
+          <div id="notificationList" class="panel notification-list"></div>
+        </section>
+
+        <section id="view-profile" class="view">
+          <div class="page-heading"><div><p class="eyebrow">YOUR SPACE</p><h1>My Profile</h1></div><button class="outline-btn" id="editProfileBtn">Edit profile</button></div>
+          <div class="panel profile-card">
+            <div class="cover"></div>
+            <div class="profile-main"><label class="avatar avatar-xl" id="profileAvatar" for="avatarFile">P</label><input id="avatarFile" type="file" accept="image/*" hidden><div class="profile-identity"><h2 id="profileName">Your Name</h2><p class="muted" id="profileHandle">@username</p><p id="profileBio" class="profile-bio">Welcome to my ConnectHub profile!</p></div></div>
+            <div class="stats"><div><strong id="profilePostCount">0</strong><span>Posts</span></div><div><strong id="profileFollowerCount">0</strong><span>Followers</span></div><div><strong id="profileFollowingCount">0</strong><span>Following</span></div></div>
+          </div>
+          <div class="feed-toolbar"><h2>My posts</h2></div><div id="profilePosts" class="post-list"></div>
+        </section>
+
+        <section id="view-settings" class="view">
+          <div class="page-heading"><div><p class="eyebrow">MAKE IT YOURS</p><h1>Settings</h1><p class="muted">Manage your local experience.</p></div></div>
+          <div class="panel settings-panel">
+            <div class="setting-row"><div><strong>Appearance</strong><p class="muted tiny">Switch between dark and light mode.</p></div><button class="outline-btn" id="settingsTheme">Toggle theme</button></div>
+            <div class="setting-row"><div><strong>Account</strong><p class="muted tiny">Signed in as <span id="settingsEmail"></span></p></div><button class="quiet-btn" id="settingsLogout">Sign out</button></div>
+            <div class="setting-row"><div><strong>Local data</strong><p class="muted tiny">Posts, profile and demo messages are saved in this browser.</p></div><button class="danger-btn" id="clearData">Clear local data</button></div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="right-sidebar">
+        <div class="panel side-card"><h3>Trending now</h3><p class="trend">#Technology <span>Popular</span></p><p class="trend">#Photography <span>Popular</span></p><p class="trend">#Learning <span>Growing</span></p></div>
+        <div class="panel side-card"><h3>About ConnectHub</h3><p class="muted tiny">A personal social network prototype built with HTML, CSS and JavaScript.</p></div>
+      </aside>
+    </div>
+
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      <button class="active" data-view="home"><span>⌂</span>Home</button>
+      <button data-view="explore"><span>⌕</span>Explore</button>
+      <button data-view="messages"><span>✉</span>Messages</button>
+      <button data-view="notifications"><span>♧</span>Alerts</button>
+      <button data-view="profile"><span>◎</span>Profile</button>
+    </nav>
+  </div>
+
+  <dialog id="editDialog" class="edit-dialog">
+    <form id="profileForm" method="dialog">
+      <div class="dialog-heading"><h2>Edit profile</h2><button type="button" class="icon-btn" id="closeDialog">×</button></div>
+      <label for="editName">Full name</label><input id="editName" maxlength="50" required>
+      <label for="editUsername">Username</label><input id="editUsername" maxlength="24" required>
+      <label for="editBio">Biography</label><textarea id="editBio" maxlength="180" rows="3"></textarea>
+      <button class="outline-btn full-btn" type="button" id="removeProfilePhoto">Remove profile photo</button>
+      <button class="primary-btn full-btn" type="submit">Save changes</button>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
